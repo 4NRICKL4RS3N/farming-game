@@ -130,6 +130,31 @@ public class User
         return false;
     }
 
+    public static int connectAdmin(Connection con, String email, String mpd) {
+        String sqlCheckUser = "select * from \"user\" where email = ?";
+        try {
+            PreparedStatement st = con.prepareStatement(sqlCheckUser);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                // tsy existant le user
+                return -2;
+            }
+            int role = rs.getInt("role");
+            if (role == 0) {
+                // tsy admin
+                return -1;
+            }
+            String trueMdp = rs.getString("password");
+            if (trueMdp.compareTo(mpd) != 0) {
+                //diso mdp
+                return 0;
+            }
+        } catch (Exception e) {
+        }
+        return 1;
+    }
+
 //    public boolean createParcelle(Connection con, Terrain terrain, CategorieCulture categorieCulture, Dimension dimension) {
 //        Parcelle newParcelle = new Parcelle();
 //        newParcelle.setTerrain(terrain);

@@ -8,7 +8,7 @@ public class Connectiondb {
         Connection con = null;
         try {
             Class.forName("org.postgresql.Driver");
-            con = DriverManager.getConnection("jdbc:postgresql://monorail.proxy.rlwy.net:24952/railway", "postgres", "5EdGFC2*ea-1ag-D4fCa5AF46B4cdAde");
+            con = DriverManager.getConnection("jdbc:postgresql://roundhouse.proxy.rlwy.net:55916/railway", "postgres", "ADEbbB15G-2*1A-DeaA6G52EeagGg1B1");
         } catch(Exception e) {
             e.printStackTrace();
         }
