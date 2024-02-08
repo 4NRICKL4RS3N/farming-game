@@ -22,7 +22,7 @@ public class CategorieCultureController {
 
     @GetMapping("/categorie-culture/{id}")
     @ResponseBody
-    public CategorieCulture getById(@PathVariable("id") String id) throws SQLException {
+    public CategorieCulture getCatCulById(@PathVariable("id") String id) throws SQLException {
         Connection con = Connectiondb.connect();
         CategorieCulture result = CategorieCulture.get_categorie_by_id(con, id);
         con.close();
@@ -31,7 +31,7 @@ public class CategorieCultureController {
 
     @PostMapping("/categorie-culture")
     @ResponseBody
-    public StatutMessage insert(@RequestBody CategorieCulture categorieCulture) throws SQLException {
+    public StatutMessage insertCatCul(@RequestBody CategorieCulture categorieCulture) throws SQLException {
         Connection con = Connectiondb.connect();
         StatutMessage message = new StatutMessage();
         try {
@@ -52,7 +52,7 @@ public class CategorieCultureController {
 
     @DeleteMapping("/categorie-culture/{id}")
     @ResponseBody
-    public StatutMessage insert(@PathVariable("id") String id) throws SQLException {
+    public StatutMessage deleteCalCul(@PathVariable("id") String id) throws SQLException {
         Connection con = Connectiondb.connect();
         StatutMessage message = new StatutMessage();
         if (CategorieCulture.delete(con, id)) {
@@ -68,7 +68,7 @@ public class CategorieCultureController {
 
     @PutMapping("/categorie-culture")
     @ResponseBody
-    public StatutMessage update(@RequestBody CategorieCulture categorieCulture) throws SQLException {
+    public StatutMessage updateCalCul(@RequestBody CategorieCulture categorieCulture) throws SQLException {
         Connection con = Connectiondb.connect();
         StatutMessage message = new StatutMessage();
         if (categorieCulture.update(con)) {

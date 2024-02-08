@@ -2,10 +2,10 @@ package com.main.farminggame.user;
 import java.sql.*;
 import java.util.Vector;
 import com.main.farminggame.connection.Connectiondb;
-//import culture.CategorieCulture;
-//import culture.Parcelle;
-//import culture.Terrain;
-//import dimension.Dimension;
+import com.main.farminggame.culture.CategorieCulture;
+import com.main.farminggame.culture.Parcelle;
+import com.main.farminggame.culture.Terrain;
+import com.main.farminggame.dimension.Dimension;
 
 public class User 
 {
@@ -15,7 +15,7 @@ public class User
     String email;
     double argent;
     boolean isAdmin;
-//    Terrain[] terrain;
+    Terrain[] terrain;
     
     public User(){}
     public String getIdUser() {
@@ -57,12 +57,12 @@ public class User
         this.email = email;
     }
 
-//    public Terrain[] getTerrain() {
-//        return terrain;
-//    }
-//    public void setTerrain(Terrain[] terrain) {
-//        this.terrain = terrain;
-//    }
+    public Terrain[] getTerrain() {
+        return terrain;
+    }
+    public void setTerrain(Terrain[] terrain) {
+        this.terrain = terrain;
+    }
 
     public User (String id,String pseudo,String password,String mail, double argent, int isAdmin) {
         this.setIdUser(id);
@@ -155,40 +155,34 @@ public class User
         return 1;
     }
 
-//    public boolean createParcelle(Connection con, Terrain terrain, CategorieCulture categorieCulture, Dimension dimension) {
-//        Parcelle newParcelle = new Parcelle();
-//        newParcelle.setTerrain(terrain);
-//        newParcelle.setCategorie(categorieCulture);
-//        newParcelle.setDimension(dimension);
-//        if (newParcelle.insert(con)) {
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    boolean checkByTerrain(Dimension dimension) {
-//        double prixTotal = dimension.getArea() * Terrain.prix;
-//        if (prixTotal > this.getArgent()) {
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    public boolean buyTerrain(Connection con, Dimension dimension, Timestamp dateCreation) {
-//        if (!checkByTerrain(dimension)) {
-//            return false;
-//        }
-//        Terrain newTerrain = new Terrain();
-//        newTerrain.setDate_creation(dateCreation);
-//        newTerrain.setUser(this);
-//        newTerrain.setDimension(dimension);
-//        newTerrain.insert(con);
-//
-//        double newArgent = this.getArgent() - dimension.getArea()*Terrain.prix;
-//        this.setArgent(newArgent);
-//        this.updateArgent(con, newArgent);
-//
-//        return true;
-//    }
+    public boolean createParcelle(Connection con, Terrain terrain, CategorieCulture categorieCulture, Dimension dimension) {
+        Parcelle newParcelle = new Parcelle();
+        newParcelle.setTerrain(terrain);
+        newParcelle.setCategorie(categorieCulture);
+        newParcelle.setDimension(dimension);
+        return newParcelle.insert(con);
+    }
+
+    boolean checkByTerrain(Dimension dimension) {
+        double prixTotal = dimension.getArea() * Terrain.prix;
+        return !(prixTotal > this.getArgent());
+    }
+
+    public boolean buyTerrain(Connection con, Dimension dimension, Timestamp dateCreation) {
+        if (!checkByTerrain(dimension)) {
+            return false;
+        }
+        Terrain newTerrain = new Terrain();
+        newTerrain.setDate_creation(dateCreation);
+        newTerrain.setUser(this);
+        newTerrain.setDimension(dimension);
+        newTerrain.insert(con);
+
+        double newArgent = this.getArgent() - dimension.getArea()*Terrain.prix;
+        this.setArgent(newArgent);
+        this.updateArgent(con, newArgent);
+
+        return true;
+    }
  
 }
