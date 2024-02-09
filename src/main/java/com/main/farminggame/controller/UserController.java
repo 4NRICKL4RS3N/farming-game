@@ -33,6 +33,7 @@ class LoginInput {
     public String email;
     public String mdp;
 }
+
 @RestController
 public class UserController {
     @PostMapping("/admin-login")
